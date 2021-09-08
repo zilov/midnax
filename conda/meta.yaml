@@ -1,0 +1,20 @@
+package:
+  name: mt_finder
+  version: 0.0.1
+
+source:
+  git_url: https://github.com/zilov/mt_finder.git
+
+requirements:
+  run:
+    - python
+    - blast
+
+test:
+  commands:
+    - mtfinder -h
+
+about:
+  home: https://github.com/zilov/mt_finder
+  license: GPLv3
+  summary: 'A tool to find mtRNA inside of genome'
