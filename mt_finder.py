@@ -7,7 +7,7 @@
 
 import argparse
 import os
-from collections import defaultdict
+
 
 def mkblastdb(reference_mtdna, debug=False):
     blast_db_file = reference_mtdna + ".ndb"
@@ -61,7 +61,7 @@ def fasta_contig_finder(genome, header_to_find):
 
 def sort_blast_results(blast_results):
     results = []
-    with open(blast_file) as fh:
+    with open(blast_results) as fh:
         for line in fh:
             line = line.strip().split("\t")
             print(line)
@@ -72,7 +72,7 @@ def sort_blast_results(blast_results):
 
 def write_top_matches(sorted_results_list, results_summary):
     with open(results_summary, "w") as fw:
-        header = "\t".join(["#contig","identity", "start", "stop", "length", "p_value"])
+        header = "\t".join(["#contig", "identity", "start", "stop", "length", "p_value"])
         fw.write(f'{header}\n')
         for match in sorted_results_list[:15]:
             string_to_write = "\t".join(match)
