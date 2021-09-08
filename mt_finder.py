@@ -80,9 +80,9 @@ def write_top_matches(sorted_results_list, results_summary):
         print(f"\nTop matches was written in {results_summary}!")
 
 
-def write_mt_fasta(sorted_blast_results, mtdna_file):
+def write_mt_fasta(assembly_fasta, sorted_blast_results, mtdna_file):
     top_match_header = f">{sorted_blast_results[0][3]}"
-    sequence = fasta_contig_finder(top_match_header)
+    sequence = fasta_contig_finder(assembly_fasta, top_match_header)
     with open(mtdna_file, "w") as fw:
         fw.write(f"{top_match_header}\n{sequence}\n")
     print(f"\nmtDNA was written in {mtdna_file}!")
@@ -95,7 +95,7 @@ def run_mtdna_search(assembly_fasta, mtdna_fasta, blast_results, results_summary
         if blast:
             sorted_results = sort_blast_results(blast_results)
             write_top_matches(sorted_results, results_summary)
-            write_mt_fasta(sorted_results, mtdna_results)
+            write_mt_fasta(assembly_fasta, sorted_results, mtdna_results)
             print("\nDONE!\n")
             return True
         else:
