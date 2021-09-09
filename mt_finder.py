@@ -44,24 +44,21 @@ def run_blast_nt(assembly_fasta, blast_db, threads, output_file, debug=False):
             return True
 
 
-def fasta_contig_finder(fasta_file, header_to_find):
-    fasta = {}
-    header = None
-    with open(fasta_file) as fh:
+def fasta_contig_finder(genome, header_to_find):
+    header_to_find = f">{header_to_find}"
+    with open(genome) as fh:
         for i, line in enumerate(fh):
             line = line.strip()
             if line.startswith(">"):
-                if header:
-                    fasta[header] = "".join(seq)
                 header = line.split()[0]
-                seq = []
+                if not header == header_to_find:
+                    header = None
+                else:
+                    seq = []
             else:
-                seq.append(line)
-    if header:
-        fasta[header] = "".join(seq)
-
-    header_to_find = f">{header_to_find}"
-    return  fasta[header_to_find]
+                if header:
+                    seq.append(line)
+    return "".join(seq)
 
 
 def sort_blast_results(blast_results):
