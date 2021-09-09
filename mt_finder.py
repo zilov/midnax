@@ -9,9 +9,9 @@ import argparse
 import os
 
 
-def mkblastdb(reference_mtdna, debug=False):
-    blast_db_file = reference_mtdna + ".ndb"
-    command = f"makeblastdb -in {reference_mtdna} -dbtype nucl -parse_seqids"
+def mkblastdb(assembly_fasta, debug=False):
+    blast_db_file = assembly_fasta + ".ndb"
+    command = f"makeblastdb -in {assembly_fasta} -dbtype nucl -parse_seqids"
     if os.path.exists(blast_db_file):
         print("Database already created, continue!\n")
         return True
@@ -26,8 +26,8 @@ def mkblastdb(reference_mtdna, debug=False):
             return True
 
 
-def run_blast_nt(assembly_fasta, blast_db, threads, output_file, debug=False):
-    command = f"blastn -query {assembly_fasta} -db {blast_db} -max_target_seqs 50 " \
+def run_blast_nt(reference_mtdna, blast_db, threads, output_file, debug=False):
+    command = f"blastn -query {reference_mtdna} -db {blast_db} -max_target_seqs 50 " \
               f"-outfmt '6 qseqid sseqid pident qstart qend length evalue sscinames staxids' " \
               f"-evalue 1e-5 -num_threads {threads} -out {output_file}"
     if os.path.exists(output_file):
@@ -66,7 +66,7 @@ def sort_blast_results(blast_results):
     with open(blast_results) as fh:
         for line in fh:
             line = line.strip().split("\t")
-            results.append([line[0], line[2], line[3], line[4], line[5], line[6]])
+            results.append([line[1], line[2], line[3], line[4], line[5], line[6]])
         results.sort(key=lambda x: int(x[-2]), reverse=True)
         return results
 
@@ -90,9 +90,9 @@ def write_mt_fasta(assembly_fasta, sorted_blast_results, mtdna_file):
 
 
 def run_mtdna_search(assembly_fasta, mtdna_fasta, blast_results, results_summary, mtdna_results, threads, debug):
-    database = mkblastdb(mtdna_fasta, debug)
+    database = mkblastdb(assembly_fasta, debug)
     if database:
-        blast = run_blast_nt(assembly_fasta, mtdna_fasta, threads, blast_results, debug)
+        blast = run_blast_nt(mtdna_fasta, assembly_fasta, threads, blast_results, debug)
         if blast:
             sorted_results = sort_blast_results(blast_results)
             write_top_matches(sorted_results, results_summary)
