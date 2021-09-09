@@ -44,19 +44,24 @@ def run_blast_nt(assembly_fasta, blast_db, threads, output_file, debug=False):
             return True
 
 
-def fasta_contig_finder(genome, header_to_find):
-    with open(genome) as fh:
+def fasta_contig_finder(fasta_file, header_to_find):
+    fasta = {}
+    header = None
+    with open(fasta_file) as fh:
         for i, line in enumerate(fh):
             line = line.strip()
             if line.startswith(">"):
-                header = None
-            if line.startswith(header_to_find):
-                header = True
+                if header:
+                    fasta[header] = "".join(seq)
+                header = line.split()[0]
                 seq = []
             else:
-                if header:
-                    seq.append(line)
-    return "".join(seq)
+                seq.append(line)
+    if header:
+        fasta[header] = "".join(seq)
+
+    header_to_find = f">{header_to_find}"
+    return  fasta[header_to_find]
 
 
 def sort_blast_results(blast_results):
@@ -64,9 +69,8 @@ def sort_blast_results(blast_results):
     with open(blast_results) as fh:
         for line in fh:
             line = line.strip().split("\t")
-            print(line)
-            results.append([line[0], float(line[2]), int(line[3]), int(line[4]), int(line[5]), line[6]])
-        results.sort(key=lambda x: x[-2], reverse=True)
+            results.append([line[0], line[2], line[3], line[4], line[5], line[6]])
+        results.sort(key=lambda x: int(x[-2]), reverse=True)
         return results
 
 
@@ -81,10 +85,10 @@ def write_top_matches(sorted_results_list, results_summary):
 
 
 def write_mt_fasta(assembly_fasta, sorted_blast_results, mtdna_file):
-    top_match_header = f">{sorted_blast_results[0][3]}"
+    top_match_header = sorted_blast_results[0][0]
     sequence = fasta_contig_finder(assembly_fasta, top_match_header)
     with open(mtdna_file, "w") as fw:
-        fw.write(f"{top_match_header}\n{sequence}\n")
+        fw.write(f">{top_match_header}\n{sequence}\n")
     print(f"\nmtDNA was written in {mtdna_file}!")
 
 
