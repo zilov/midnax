@@ -1,9 +1,9 @@
 package:
   name: mt_finder
-  version: 0.0.1
+  version: 1.0.0
 
 source:
-  git_url: https://github.com/zilov/mt_finder.git
+  git_url: https://github.com/zilov/midnax.git
 
 requirements:
   run:
@@ -12,9 +12,9 @@ requirements:
 
 test:
   commands:
-    - mtfinder -h
+    - midnax -h
 
 about:
-  home: https://github.com/zilov/mt_finder
+  home: https://github.com/zilov/midnax
   license: GPLv3
   summary: 'A tool to find mtRNA inside of genome'
