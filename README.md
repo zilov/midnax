@@ -1,4 +1,5 @@
 # midnax
+[![DOI](https://zenodo.org/badge/404365756.svg)](https://zenodo.org/badge/latestdoi/404365756)
 MItochondrial DNA eXtracter. With the help of blast extracts contig with mtDNA inside. Needs closest reference mtDNA to run.
 ## Install, set and run
 midnax is available in conda, to install and set is use following commands:
