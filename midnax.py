@@ -106,7 +106,7 @@ def run_mtdna_search(assembly_fasta, mtdna_fasta, blast_results, results_summary
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='mt_finder -  a tool for mtDNA extracting from genome')
+    parser = argparse.ArgumentParser(description='midnax -  a tool for mtDNA extracting from genome')
     parser.add_argument('-a', '--assembly', help="path to genome asssembly in FASTA format", required=True)
     parser.add_argument('-m', '--mtdna', help="path to reference mtDNA in FASTA format", required=True)
     parser.add_argument('-p', '--prefix', help="prefix for output files", default=None)
