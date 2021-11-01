@@ -26,4 +26,4 @@ midnax is available in conda, to install and set is use following commands:
   -d, --debug           do not run, print commands only
 ```
 ## Citation
-Please cite midnax if you use it in your project!
+Please cite midnax (https://doi.org/10.5281/zenodo.5636473) if you use it in your project!
