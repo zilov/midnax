@@ -8,7 +8,7 @@ midnax is available in conda, to install and set is use following commands:
 2) Activate the environment: `conda activate midnax_env`
 3) To run midnax on your assembly use the following command:
    ```
-   pannopi -a /path/to/assembly.fasta -m /path/to/mtdna.fasta -t 32 -o /path/to/outdir
+   midnax -a /path/to/assembly.fasta -m /path/to/mtdna.fasta -t 32 -o /path/to/outdir
    ```
 ## Options
 ```
